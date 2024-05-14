@@ -3,19 +3,19 @@ package flashcardquiz;
 import java.util.ArrayList;
 
 class Store {
-  private ArrayList<Card> cards;
-  private ArrayList<Integer> cardIds;
-  private int nextCardId;
+  protected ArrayList<Card> cards;
+  protected ArrayList<Integer> cardIds;
+  protected int nextCardId;
 
-  private ArrayList<Quiz> quizzes;
-  private ArrayList<Integer> quizIds;
-  private int nextQuizId;
+  protected ArrayList<Quiz> quizzes;
+  protected ArrayList<Integer> quizIds;
+  protected int nextQuizId;
 
-  private ArrayList<Lesson> lessons;
-  private ArrayList<Integer> lessonIds;
-  private int nextLessonId;
-  private ArrayList<ArrayList<Integer>> lessonCardIds;
-  private ArrayList<ArrayList<Integer>> lessonQuizIds; // simply accept that there will be quizzes that don't exist
+  protected ArrayList<Lesson> lessons;
+  protected ArrayList<Integer> lessonIds;
+  protected int nextLessonId;
+  protected ArrayList<ArrayList<Integer>> lessonCardIds;
+  protected ArrayList<ArrayList<Integer>> lessonQuizIds; // simply accept that there will be quizzes that don't exist
 
   public Store() {
     cards = new ArrayList<>();
@@ -117,6 +117,14 @@ class Store {
   private int findQuiz(int quizId) {
     Finder f = new Finder(quizIds);
     return f.find(quizId);
+  }
+
+  public Quiz getQuiz(int quizId) {
+    int i = findQuiz(quizId);
+    if (i >= 0)
+      return quizzes.get(i);
+    else
+      return null;
   }
 
   public MCQuiz getMCQuiz(int quizId) {

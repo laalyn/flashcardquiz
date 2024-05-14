@@ -45,7 +45,7 @@ public class StoreDriver {
     // System.out.println("c2 == c3 = " + (c2 == c3));
     // // above will all be true because its still the same object
 
-    Store s = new Store();
+    FileStore s = new FileStore("store.dat");
     System.out.println("created a store");
 
     Lesson l = new Lesson("a lesson");
@@ -67,7 +67,6 @@ public class StoreDriver {
 
     MCQuiz mcq = new MCQuiz(l);
     String mcqRepr = mcq.dump();
-    mcq = MCQuiz.load(mcqRepr);
     mcq.setLesson(l);
     System.out.println("created quiz (mcq) from lesson");
 
@@ -87,6 +86,14 @@ public class StoreDriver {
       System.out.println("\tchoice: " + choice);
     }
     System.out.println("\tsubmission: 0; " + mcq.submitChoice(0));
+    
+    System.out.println("dumped store");
+    s.dump();
+    s = new FileStore("store.dat");
+    s.load();
+    System.out.println("loaded store");
+    mcq = s.getMCQuiz(quizId);
+    System.out.println("refetched mcq");
 
     System.out.println("question: " + mcq.getQuestion());
     for (String choice: mcq.getChoices()) {
