@@ -7,20 +7,30 @@ class Store {
   private ArrayList<Integer> cardIds;
   private int nextCardId;
 
+  private ArrayList<Quiz> quizzes;
+  private ArrayList<Integer> quizIds;
+  private int nextQuizId;
+
   private ArrayList<Lesson> lessons;
   private ArrayList<Integer> lessonIds;
   private int nextLessonId;
   private ArrayList<ArrayList<Integer>> lessonCardIds;
+  private ArrayList<ArrayList<Integer>> lessonQuizIds; // simply accept that there will be quizzes that don't exist
 
   public Store() {
     cards = new ArrayList<>();
     cardIds = new ArrayList<>();
     nextCardId = 0;
 
+    quizzes = new ArrayList<>();
+    quizIds = new ArrayList<>();
+    nextQuizId = 0;
+
     lessons = new ArrayList<>();
     lessonIds = new ArrayList<>();
     nextLessonId = 0;
     lessonCardIds = new ArrayList<>();
+    lessonQuizIds = new ArrayList<>();
   }
 
   public int postCard(Card card) {
@@ -61,7 +71,82 @@ class Store {
     return false;
   }
 
-  // TODO add quizzes here
+  public int postLessonFromQuiz(Quiz quiz, Integer existingLessonId) {
+    Lesson l = quiz.getLesson();
+    if (existingLessonId != null) {
+      if (getLesson(existingLessonId) == l) { // yes, we want to use ==
+        System.out.println("[debug] Store.postLessonFromQuiz matched existing lesson with id " + existingLessonId);
+        return existingLessonId;
+      } else {
+        System.out.println("[debug] Store.postLessonFromQuiz did not match existing lesson with id " + existingLessonId);
+      }
+    }
+    return postLesson(l);
+  }
+
+  public int postQuiz(Quiz quiz) {
+    return postQuiz(quiz, null);
+  }
+
+  public int postQuiz(Quiz quiz, Integer existingLessonId) {
+    quizzes.add(quiz);
+    quizIds.add(nextQuizId);
+    int lessonId = postLessonFromQuiz(quiz, existingLessonId);
+    int i = findLesson(lessonId);
+    lessonQuizIds.get(i).add(lessonId);
+    return nextQuizId++;
+  }
+
+  public boolean replaceQuiz(int quizId, Quiz quiz) {
+    return replaceQuiz(quizId, quiz, null);
+  }
+
+  public boolean replaceQuiz(int quizId, Quiz quiz, Integer existingLessonId) {
+    int i = findQuiz(quizId);
+    if (i >= 0) {
+      // NOTE we are not deleting the held fk by lesson
+      quizzes.set(i, quiz);
+      int lessonId = postLessonFromQuiz(quiz, existingLessonId);
+      int j = findLesson(lessonId);
+      lessonQuizIds.get(j).add(lessonId);
+      return true;
+    }
+    return false;
+  }
+
+  private int findQuiz(int quizId) {
+    Finder f = new Finder(quizIds);
+    return f.find(quizId);
+  }
+
+  public MCQuiz getMCQuiz(int quizId) {
+    int i = findQuiz(quizId);
+    Quiz q = quizzes.get(i);
+    if (i >= 0 && q instanceof MCQuiz)
+      return (MCQuiz) quizzes.get(i);
+    else
+      return null;
+  }
+
+  public FRQuiz getFRQuiz(int quizId) {
+    int i = findQuiz(quizId);
+    Quiz q = quizzes.get(i);
+    if (i >= 0 && q instanceof FRQuiz)
+      return (FRQuiz) quizzes.get(i);
+    else
+      return null;
+  }
+
+  public boolean deleteQuiz(int quizId) {
+    int i = findQuiz(quizId);
+    if (i >= 0) {
+      // NOTE we are not deleting the held fk by lesson
+      quizzes.remove(i);
+      quizIds.remove(i);
+      return true;
+    }
+    return false;
+  }
 
   private ArrayList<Integer> postCardsFromLesson(Lesson lesson, ArrayList<Integer> existingCardIds) {
     ArrayList<Integer> cardIds = new ArrayList<>();
@@ -69,7 +154,7 @@ class Store {
       Card c = lesson.getCard(i);
       if (i < existingCardIds.size()) {
         int cardId = existingCardIds.get(i);
-        if (getCard(cardId) == c) { // yes, we want to use == instead of .equals()
+        if (getCard(cardId) == c) { // yes, we want to use ==
           System.out.println("[debug] Store.postCardsFromLesson matched existing card with id " + cardId);
           cardIds.add(cardId);
           continue;
@@ -90,6 +175,7 @@ class Store {
     lessonIds.add(nextLessonId);
     ArrayList<Integer> cardIds = postCardsFromLesson(lesson, existingCardIds);
     lessonCardIds.add(cardIds);
+    lessonQuizIds.add(new ArrayList<>());
     return nextLessonId++;
   }
 
@@ -107,6 +193,7 @@ class Store {
       if (cascade) deleteCardsFromLesson(lessonId);
       lessons.set(i, lesson);
       lessonCardIds.set(i, postCardsFromLesson(lesson, existingCardIds));
+      lessonQuizIds.set(i, new ArrayList<>());
       return true;
     }
     return false;
@@ -120,13 +207,16 @@ class Store {
   public Lesson getLesson(int lessonId) {
     int i = findLesson(lessonId);
     if (i >= 0) {
-      Lesson ref = lessons.get(i);
-      Lesson proj = new Lesson(ref.getName(), ref.getDescription());
-      for (int id: lessonCardIds.get(i)) {
-        System.out.println("[debug] Store.getLesson retrieved existing card with id " + id);
-        proj.addCard(getCard(id));
-      }
-      return proj;
+      // NOTE not projecting
+      // TODO reconsider?
+      // Lesson ref = lessons.get(i);
+      // Lesson proj = new Lesson(ref.getName(), ref.getDescription());
+      // for (int id: lessonCardIds.get(i)) {
+      //   System.out.println("[debug] Store.getLesson retrieved existing card with id " + id);
+      //   proj.addCard(getCard(id));
+      // }
+      // return proj;
+      return lessons.get(i);
     } else return null;
   }
 
@@ -154,6 +244,7 @@ class Store {
       lessons.remove(i);
       lessonIds.remove(i);
       lessonCardIds.remove(i);
+      lessonQuizIds.remove(i);
       return true;
     }
     return false;

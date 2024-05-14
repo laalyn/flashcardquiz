@@ -24,6 +24,10 @@ class Quiz {
     missed = new ArrayList<>();
   }
 
+  public Lesson getLesson() {
+    return lesson;
+  }
+
   public int getProgress() {
     return progress;
   }
