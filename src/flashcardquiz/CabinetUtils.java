@@ -1,6 +1,8 @@
 package flashcardquiz;
 
 import java.util.Scanner;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 class CabinetUtils {
   public static String escape(String str) {

@@ -6,6 +6,12 @@ class MCQuiz extends Quiz {
   private int numChoices;
   private ArrayList<Integer> choices;
 
+  public MCQuiz(Lesson lesson, ArrayList<Integer> order, int progress, ArrayList<Integer> missed, int numChoices, ArrayList<Integer> choices) {
+    super(lesson, order, progress, missed);
+    this.numChoices = numChoices;
+    this.choices = choices;
+  }
+
   public MCQuiz(Lesson lesson) {
     this(lesson, 4);
   }
@@ -60,5 +66,25 @@ class MCQuiz extends Quiz {
         return false;
       }
     } else return null;
+  }
+
+  public String dump() {
+    CabinetWriter cw = new CabinetWriter();
+    cw.putInt(numChoices);
+    cw.putIntArray(choices);
+    return dump(cw);
+  }
+
+  public static MCQuiz load(String repr) {
+    CabinetReader cr = new CabinetReader(repr);
+    int numChoices = cr.getInt();
+    ArrayList<Integer> choices = cr.getIntArray();
+    // MCQuiz mcq = (MCQuiz) load(cr);
+    // mcq.numChoices = numChoices;
+    // mcq.choices = choices;
+    ArrayList<Integer> order = cr.getIntArray();
+    int progress = cr.getInt();
+    ArrayList<Integer> missed = cr.getIntArray();
+    return new MCQuiz(null, order, progress, missed, numChoices, choices);
   }
 }

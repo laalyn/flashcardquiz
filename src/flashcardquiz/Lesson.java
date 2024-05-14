@@ -44,4 +44,19 @@ class Lesson {
   public void removeCard(int index) {
     cards.remove(index);
   }
+
+  public String dump() {
+    // NOTE ignoring cards
+    CabinetWriter cw = new CabinetWriter();
+    cw.putString(name);
+    cw.putString(description);
+    return cw.getOutput();
+  }
+
+  public static Lesson load(String repr) {
+    CabinetReader cr = new CabinetReader(repr);
+    String name = cr.getString();
+    String description = cr.getString();
+    return new Lesson(name, description);
+  }
 }

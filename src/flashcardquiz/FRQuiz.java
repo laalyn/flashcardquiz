@@ -5,6 +5,11 @@ import java.util.ArrayList;
 class FRQuiz extends Quiz {
   private boolean caseSensitive;
 
+  public FRQuiz(Lesson lesson, ArrayList<Integer> order, int progress, ArrayList<Integer> missed, boolean caseSensitive) {
+    super(lesson, order, progress, missed);
+    this.caseSensitive = caseSensitive;
+  }
+
   public FRQuiz(Lesson lesson) {
     this(lesson, false);
   }
@@ -25,5 +30,22 @@ class FRQuiz extends Quiz {
         return false;
       }
     } else return null;
+  }
+
+  public String dump() {
+    CabinetWriter cw = new CabinetWriter();
+    cw.putBool(caseSensitive);
+    return dump(cw);
+  }
+
+  public static FRQuiz load(String repr) {
+    CabinetReader cr = new CabinetReader(repr);
+    boolean caseSensitive = cr.getBool();
+    // FRQuiz frq = (FRQuiz) load(cr);
+    // frq.caseSensitive = caseSensitive;
+    ArrayList<Integer> order = cr.getIntArray();
+    int progress = cr.getInt();
+    ArrayList<Integer> missed = cr.getIntArray();
+    return new FRQuiz(null, order, progress, missed, caseSensitive);
   }
 }

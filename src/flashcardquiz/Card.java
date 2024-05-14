@@ -16,4 +16,18 @@ class Card {
   public String getBack() {
     return back;
   }
+
+  public String dump() {
+    CabinetWriter cw = new CabinetWriter();
+    cw.putString(front);
+    cw.putString(back);
+    return cw.getOutput();
+  }
+
+  public static Card load(String repr) {
+    CabinetReader cr = new CabinetReader(repr);
+    String front = cr.getString();
+    String back = cr.getString();
+    return new Card(front, back);
+  }
 }

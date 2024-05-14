@@ -49,10 +49,16 @@ public class StoreDriver {
     System.out.println("created a store");
 
     Lesson l = new Lesson("a lesson");
-    l.addCard(new Card("1 + 2", "3"));
+    String lRepr = l.dump();
+    l = Lesson.load(lRepr);
+    Card fc = new Card("1 + 2", "3");
+    String fcRepr = fc.dump();
+    fc = Card.load(fcRepr);
+    l.addCard(fc);
     l.addCard(new Card("\\x -> x", "id"));
     l.addCard(new Card("fix $ const 5", "5"));
     System.out.println("created a lesson, created three cards, added three cards to lesson");
+    System.out.println("first card has representation:\n" + fcRepr);
 
     int lessonId = s.postLesson(l);
     System.out.println("posted lesson and cards");
@@ -60,6 +66,9 @@ public class StoreDriver {
     l = s.getLesson(lessonId);
 
     MCQuiz mcq = new MCQuiz(l);
+    String mcqRepr = mcq.dump();
+    mcq = MCQuiz.load(mcqRepr);
+    mcq.setLesson(l);
     System.out.println("created quiz (mcq) from lesson");
 
     int quizId = s.postQuiz(mcq, lessonId);

@@ -10,6 +10,10 @@ public class FRQuizDriver {
     myLesson.addCard(new Card("fix $ const 5", "5"));
 
     FRQuiz myFRQuiz = new FRQuiz(myLesson);
+    String frqRepr = myFRQuiz.dump();
+    System.out.println(frqRepr);
+    myFRQuiz = FRQuiz.load(frqRepr);
+    myFRQuiz.setLesson(myLesson);
     System.out.println(myFRQuiz.getQuestion());
     System.out.println(myFRQuiz.submitResponse("3"));
     System.out.println(myFRQuiz.getQuestion());

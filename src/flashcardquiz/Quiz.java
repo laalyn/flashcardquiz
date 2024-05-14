@@ -8,8 +8,17 @@ class Quiz {
   private int progress;
   private ArrayList<Integer> missed;
 
-  public Quiz(Lesson lesson) {
+  // NOTE for internal use
+  // but you don't even need this because you can access private Quiz in Quiz
+  public Quiz(Lesson lesson, ArrayList<Integer> order, int progress, ArrayList<Integer> missed) {
     this.lesson = lesson;
+    this.order = order;
+    this.progress = progress;
+    this.missed = missed;
+  }
+
+  public Quiz(Lesson lesson) {
+    setLesson(lesson);
     ArrayList<Integer> indices = new ArrayList<>();
     for (int i = 0; i < lesson.countCards(); i++) {
       indices.add(i);
@@ -22,6 +31,11 @@ class Quiz {
     }
     progress = 0;
     missed = new ArrayList<>();
+  }
+
+  // NOTE be careful
+  public void setLesson(Lesson lesson) {
+    this.lesson = lesson;
   }
 
   public Lesson getLesson() {
@@ -85,4 +99,19 @@ class Quiz {
     }
     return cards;
   }
+
+  public String dump(CabinetWriter cw) {
+    // NOTE ignoring lesson
+    cw.putIntArray(order);
+    cw.putInt(progress);
+    cw.putIntArray(missed);
+    return cw.getOutput();
+  }
+
+  // public static Quiz load(CabinetReader cr) {
+  //   ArrayList<Integer> order = cr.getIntArray();
+  //   int progress = cr.getInt();
+  //   ArrayList<Integer> missed = cr.getIntArray();
+  //   return new Quiz(null, order, progress, missed);
+  // }
 }
