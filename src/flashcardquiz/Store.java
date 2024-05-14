@@ -93,7 +93,7 @@ class Store {
     quizIds.add(nextQuizId);
     int lessonId = postLessonFromQuiz(quiz, existingLessonId);
     int i = findLesson(lessonId);
-    lessonQuizIds.get(i).add(lessonId);
+    lessonQuizIds.get(i).add(nextQuizId);
     return nextQuizId++;
   }
 
@@ -108,7 +108,7 @@ class Store {
       quizzes.set(i, quiz);
       int lessonId = postLessonFromQuiz(quiz, existingLessonId);
       int j = findLesson(lessonId);
-      lessonQuizIds.get(j).add(lessonId);
+      lessonQuizIds.get(j).add(quizId);
       return true;
     }
     return false;
