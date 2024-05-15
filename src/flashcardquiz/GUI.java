@@ -20,6 +20,8 @@ public class GUI implements ActionListener {
   private static final Font HEADING3_LITE = new Font("SansSerif", Font.PLAIN, 18);
   private static final Font HEADING4_LITE = new Font("SansSerif", Font.PLAIN, 16);
 
+  private static final Color OFFWHITE = new Color(251, 251, 251);
+
   FileStore store;
   Integer selectedLessonId;
   Integer selectedQuizId;
@@ -95,7 +97,7 @@ public class GUI implements ActionListener {
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     panel.setPreferredSize(new Dimension(380, 800));
     panel.setMaximumSize(new Dimension(3000, 10000)); // TODO tune this
-    panel.setBackground(Color.BLUE);
+    // panel.setBackground(Color.BLUE);
     panel.add(aboutPanel());
     panel.add(createLessonPanel());
     panel.add(lessonsScrollPane());
@@ -107,7 +109,7 @@ public class GUI implements ActionListener {
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     panel.setPreferredSize(new Dimension(380, 800));
     panel.setMaximumSize(new Dimension(3000, 10000)); // TODO tune this
-    panel.setBackground(Color.BLUE);
+    // panel.setBackground(Color.BLUE);
     panel.add(createCardPanel());
     panel.add(createMCQuizPanel());
     panel.add(createFRQuizPanel());
@@ -121,7 +123,7 @@ public class GUI implements ActionListener {
       panel = new JPanel();
       panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
       panel.setPreferredSize(new Dimension(900, 800));
-      panel.setBackground(Color.LIGHT_GRAY);
+      // panel.setBackground(Color.WHITE);
       panel.add(quizButtonRowPanel());
 
       Quiz q = store.getQuiz(selectedQuizId);
@@ -165,7 +167,7 @@ public class GUI implements ActionListener {
       panel = new JPanel();
       panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
       panel.setPreferredSize(new Dimension(900, 800));
-      panel.setBackground(Color.GREEN);
+      // panel.setBackground(Color.GREEN);
       panel.add(lessonButtonRowPanel());
 
       Lesson l = store.getLesson(selectedLessonId);
@@ -182,7 +184,7 @@ public class GUI implements ActionListener {
     } else {
       panel = new JPanel(new BorderLayout());
       panel.setPreferredSize(new Dimension(900, 800));
-      panel.setBackground(Color.GREEN);
+      panel.setBackground(OFFWHITE);
       JLabel label = new JLabel("Please select a lesson to continue", SwingConstants.CENTER);
       label.setFont(HEADING3);
       panel.add(label);
@@ -194,7 +196,7 @@ public class GUI implements ActionListener {
     JPanel panel = new JPanel();
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     panel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    panel.setBackground(Color.RED);
+    // panel.setBackground(Color.RED);
 
     JLabel label1 = new JLabel("Flashcard Quiz");
     label1.setFont(HEADING1);
@@ -215,7 +217,7 @@ public class GUI implements ActionListener {
     JPanel panel = new JPanel();
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     panel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    panel.setBackground(Color.CYAN);
+    // panel.setBackground(Color.CYAN);
 
     JLabel label = new JLabel("Create Lesson");
     label.setFont(HEADING2);
@@ -245,7 +247,7 @@ public class GUI implements ActionListener {
     JPanel panel = new JPanel();
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     panel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    panel.setBackground(Color.CYAN);
+    // panel.setBackground(Color.CYAN);
 
     JLabel label = new JLabel("Add Card");
     label.setFont(HEADING2);
@@ -275,7 +277,7 @@ public class GUI implements ActionListener {
     JPanel panel = new JPanel();
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     panel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    panel.setBackground(Color.CYAN);
+    // panel.setBackground(Color.CYAN);
 
     JLabel label = new JLabel("Practice MCQ");
     label.setFont(HEADING2);
@@ -299,7 +301,7 @@ public class GUI implements ActionListener {
     JPanel panel = new JPanel();
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     panel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    panel.setBackground(Color.CYAN);
+    // panel.setBackground(Color.CYAN);
 
     JLabel label = new JLabel("Practice FRQ");
     label.setFont(HEADING2);
@@ -319,7 +321,7 @@ public class GUI implements ActionListener {
     JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     panel.setAlignmentX(Component.LEFT_ALIGNMENT);
     panel.setMaximumSize(new Dimension(1000, 60));
-    panel.setBackground(Color.MAGENTA);
+    // panel.setBackground(Color.MAGENTA);
 
     JButton button = new JButton("Select");
     button.addActionListener(this);
@@ -338,7 +340,7 @@ public class GUI implements ActionListener {
     JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     panel.setAlignmentX(Component.LEFT_ALIGNMENT);
     panel.setMaximumSize(new Dimension(1000, 60));
-    panel.setBackground(Color.MAGENTA);
+    // panel.setBackground(Color.MAGENTA);
 
     JButton button = new JButton("Select");
     button.addActionListener(this);
@@ -365,7 +367,7 @@ public class GUI implements ActionListener {
     JPanel panel = new JPanel();
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     panel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    panel.setBackground(Color.YELLOW);
+    // panel.setBackground(Color.YELLOW);
 
     JLabel label = new JLabel("My Lessons");
     label.setFont(HEADING2);
@@ -385,7 +387,7 @@ public class GUI implements ActionListener {
     JPanel panel = new JPanel();
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     panel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    panel.setBackground(Color.YELLOW);
+    // panel.setBackground(Color.YELLOW);
 
     JLabel label = new JLabel("Past Quizzes");
     label.setFont(HEADING2);
@@ -405,7 +407,7 @@ public class GUI implements ActionListener {
     JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     panel.setAlignmentX(Component.LEFT_ALIGNMENT);
     panel.setMaximumSize(new Dimension(1000, 40));
-    panel.setBackground(Color.MAGENTA);
+    // panel.setBackground(Color.MAGENTA);
 
     deselectLessonButton = new JButton("Close");
     deselectLessonButton.addActionListener(this);
@@ -424,7 +426,7 @@ public class GUI implements ActionListener {
     JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     panel.setAlignmentX(Component.LEFT_ALIGNMENT);
     panel.setMaximumSize(new Dimension(1000, 40));
-    panel.setBackground(Color.MAGENTA);
+    // panel.setBackground(Color.MAGENTA);
 
     deselectQuizButton = new JButton("Exit");
     deselectQuizButton.addActionListener(this);
@@ -443,7 +445,7 @@ public class GUI implements ActionListener {
     JPanel panel = new JPanel();
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     panel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    panel.setBackground(Color.ORANGE);
+    panel.setBackground(OFFWHITE);
 
     deleteCardButtons = new ArrayList<>();
     int i = 1; // why??
@@ -482,12 +484,12 @@ public class GUI implements ActionListener {
     JPanel panel = new JPanel();
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     panel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    panel.setBackground(Color.YELLOW);
+    panel.setBackground(OFFWHITE);
 
     MCQuiz mcq = store.getMCQuiz(selectedQuizId);
     String question = mcq.getQuestion();
     JLabel label = new JLabel(question);
-    label.setFont(HEADING1_LITE);
+    label.setFont(HEADING2_LITE);
     panel.add(label);
 
     ArrayList<String> choices = mcq.getChoices();
@@ -495,10 +497,10 @@ public class GUI implements ActionListener {
     int i = 1;
     for (String choice: choices) {
       JLabel headerLabel = new JLabel("Choice " + i);
-      headerLabel.setFont(HEADING2);
+      headerLabel.setFont(HEADING3);
 
       JLabel choiceLabel = new JLabel(choice);
-      choiceLabel.setFont(HEADING2_LITE);
+      choiceLabel.setFont(HEADING3_LITE);
 
       JButton button = new JButton("Submit");
       button.addActionListener(this);
@@ -520,12 +522,12 @@ public class GUI implements ActionListener {
     JPanel panel = new JPanel();
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     panel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    panel.setBackground(Color.YELLOW);
+    panel.setBackground(OFFWHITE);
 
     FRQuiz frq = store.getFRQuiz(selectedQuizId);
     String question = frq.getQuestion();
     JLabel label = new JLabel(question);
-    label.setFont(HEADING1_LITE);
+    label.setFont(HEADING2_LITE);
     responseTextField = new JTextField();
     responseTextField.setMaximumSize(new Dimension(10000, 30));
     submitResponseButton = new JButton("Submit");
@@ -544,7 +546,7 @@ public class GUI implements ActionListener {
     JPanel panel = new JPanel();
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     panel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    panel.setBackground(Color.ORANGE);
+    panel.setBackground(OFFWHITE);
 
     Quiz q = store.getQuiz(selectedQuizId);
     if (q.getMissedCardIndices().isEmpty()) {
