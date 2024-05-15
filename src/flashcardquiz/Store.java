@@ -207,6 +207,35 @@ class Store {
     return false;
   }
 
+  public ArrayList<Integer> getLessonIds() {
+    return lessonIds;
+  }
+
+  public ArrayList<Integer> getLessonCardIds(int lessonId) {
+    int i = findLesson(lessonId);
+    if (i >= 0) {
+      return lessonCardIds.get(i);
+    }
+    return null;
+  }
+
+  public ArrayList<Integer> getLessonQuizIds(int lessonId) {
+    int i = findLesson(lessonId);
+    if (i >= 0) {
+      // NOTE workaround because too lazy to delete refs
+      ArrayList<Integer> quizIds = new ArrayList<>();
+      for (int id: lessonQuizIds.get(i)) {
+        if (getQuiz(id) != null) {
+          quizIds.add(id);
+        } else {
+          System.out.println("[debug] Store.getLessonQuizIds skipped null");
+        }
+      }
+      return quizIds;
+    }
+    return null;
+  }
+
   private int findLesson(int lessonId) {
     Finder f = new Finder(lessonIds);
     return f.find(lessonId);

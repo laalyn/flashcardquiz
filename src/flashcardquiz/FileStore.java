@@ -117,7 +117,16 @@ class FileStore extends Store {
       }
       lessonQuizIds = new ArrayList<>();
       for (int i = 0; i < numLessons; i++) {
-        ArrayList<Integer> quizIds = cr.getIntArray();
+        ArrayList<Integer> unsafeQuizIds = cr.getIntArray();
+        ArrayList<Integer> quizIds = new ArrayList<>();
+        for (int id: unsafeQuizIds) {
+          Quiz q = getQuiz(id);
+          if (q != null) { // due to deleted refs
+            quizIds.add(id);
+          } else {
+            System.out.println("[debug] FileStore.load skipped deleted ref");
+          }
+        }
         lessonQuizIds.add(quizIds);
         Lesson l = lessons.get(i);
         for (int id: quizIds) {

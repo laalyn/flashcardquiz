@@ -38,6 +38,10 @@ class Quiz {
     this.lesson = lesson;
   }
 
+  public ArrayList<Integer> getOrder() {
+    return order;
+  }
+
   public Lesson getLesson() {
     return lesson;
   }
@@ -90,6 +94,10 @@ class Quiz {
 
   public int getScore() {
     return progress - missed.size();
+  }
+
+  public ArrayList<Integer> getMissedCardIndices() {
+    return missed;
   }
 
   public ArrayList<Card> getMissedCards() {
